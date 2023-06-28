@@ -1,11 +1,62 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>Spring Boot Security Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .registration-info {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .registration-info p {
+            margin: 0;
+        }
+
+        .registration-info strong {
+            font-weight: bold;
+        }
+    </style>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="LOGOUT"></input>
+    </form>
+
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
+<div class="container">
+    <h1 th:text="'Welcome, ' + ${user.getName()} + '! Spring Boot Security Page!'"></h1>
 
+    <div class="registration-info">
+        <p><strong>Registration Information:</strong></p>
+        <p><strong>Username:</strong> <span th:text="${user.getName()}">name</span></p>
+        <p><strong>Email:</strong> <span th:text="${user.getEmail()}">email</span></p>
+        <p><strong>Age:</strong> <span th:text="${user.getAge()}">age</span></p>
 
+    </div>
+</div>
 </body>
 </html>
+
