@@ -1,12 +1,14 @@
 package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.stereotype.Repository;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -23,9 +25,21 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public void addRole(Role role) {
+        entityManager.persist(role);
+    }
+
+    @Override
+    public Role getRole(String role) {
+        Query query = entityManager.createQuery("from Role r where r.role = :name");
+        query.setParameter("name", role);
+        return (Role) query.getSingleResult();
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<User> getUsers() {
-        Query query = entityManager.createQuery("from User");
+        Query query = entityManager.createQuery("select distinct u from User u left join fetch u.roles");
         return query.getResultList();
     }
 
@@ -47,7 +61,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
-        Query query = entityManager.createQuery("from User u where u.email = :email");
+        Query query = entityManager.createQuery("from User u left join fetch u.roles where u.email = :email");
         query.setParameter("email", email);
         return (User) query.getSingleResult();
     }

@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -17,7 +19,21 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void addUser(User user) {
+        if (user.getRoles() == null) {
+            user.setRoles(Set.of(getRole("ROLE_USER")));
+        }
         userDao.addUser(user);
+    }
+
+    @Override
+    public void  addRole(Role role) {
+        userDao.addRole(role);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Role getRole(String role) {
+        return userDao.getRole(role);
     }
 
     @Override
@@ -43,6 +59,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserByEmail(String email) {
         return userDao.getUserByEmail(email);
     }
