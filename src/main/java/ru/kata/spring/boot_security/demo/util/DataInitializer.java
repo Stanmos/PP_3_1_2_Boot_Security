@@ -23,9 +23,9 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         Role roleAdmin = new Role("ROLE_ADMIN");
         Role roleUser = new Role("ROLE_USER");
-        User admin = new User("admin", 30, "admin@mail.com", "100",
+        User admin = new User("admin", "Jackson", 30, "admin@mail.com", "100",
                 new HashSet<>(Set.of(roleAdmin, roleUser)));
-        User user = new User("user", 20, "user@mail.com", "100",
+        User user = new User("user", "Petrov", 20, "user@mail.com", "100",
                 new HashSet<>(Set.of(roleUser)));
 
         usersService.addRole(roleAdmin);

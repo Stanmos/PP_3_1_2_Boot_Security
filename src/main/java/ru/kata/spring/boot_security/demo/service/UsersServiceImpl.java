@@ -45,6 +45,12 @@ public class UsersServiceImpl implements UsersService {
         return userDao.getRole(role);
     }
 
+
+    @Override
+    public List<Role> getAllRoles() {
+        return userDao.getAllRoles();
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<User> getUsers() {

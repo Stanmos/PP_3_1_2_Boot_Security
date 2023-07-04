@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -34,6 +33,12 @@ public class UserDaoImpl implements UserDao {
         Query query = entityManager.createQuery("from Role r where r.role = :name");
         query.setParameter("name", role);
         return (Role) query.getSingleResult();
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+        Query query = entityManager.createQuery("from Role");
+        return query.getResultList();
     }
 
     @Override

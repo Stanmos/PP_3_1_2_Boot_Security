@@ -5,7 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +17,8 @@ public class User implements UserDetails {
     private int id;
 
     private String name;
+
+    private String lastName;
 
     private Integer age;
 
@@ -33,8 +37,9 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, Integer age, String email, String password, Set<Role> roles) {
+    public User(String name, String lastName, Integer age, String email, String password, Set<Role> roles) {
         this.name = name;
+        this.lastName = lastName;
         this.password = password;
         this.age = age;
         this.email = email;
@@ -55,6 +60,14 @@ public class User implements UserDetails {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Integer getAge() {
@@ -79,6 +92,17 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String[]  getRolesString() {
+        Set<Role> roles = getRoles();
+        String[] arr = new String[roles.size()];
+        int count = 0;
+        for (Role r: roles) {
+            arr[count] = r.toString();
+            count++;
+        }
+        return arr;
     }
 
     public void setRoles(Set<Role> roles) {

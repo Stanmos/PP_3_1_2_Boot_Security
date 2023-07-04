@@ -12,6 +12,8 @@ public interface UsersService {
 
     Role getRole(String role);
 
+    List<Role> getAllRoles();
+
     List<User> getUsers();
 
     void updateUser(User user);
