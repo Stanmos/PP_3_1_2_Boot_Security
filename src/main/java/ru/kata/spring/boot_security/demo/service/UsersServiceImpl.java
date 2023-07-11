@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,13 +30,19 @@ public class UsersServiceImpl implements UsersService {
     public void addUser(User user) {
         if (user.getRoles() == null) {
             user.setRoles(Set.of(getRole("ROLE_USER")));
+        } else {
+            Set<Role> roles = new HashSet<>();
+            for (Role r : user.getRoles()) {
+                roles.add(getRole(r.getRole()));
+            }
+            user.setRoles(roles);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.addUser(user);
     }
 
     @Override
-    public void  addRole(Role role) {
+    public void addRole(Role role) {
         userDao.addRole(role);
     }
 
@@ -59,6 +66,15 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void updateUser(User user) {
+        if (user.getRoles() == null) {
+            user.setRoles(Set.of(getRole("ROLE_USER")));
+        } else {
+            Set<Role> roles = new HashSet<>();
+            for (Role r : user.getRoles()) {
+                roles.add(getRole(r.getRole()));
+            }
+            user.setRoles(roles);
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.updateUser(user);
     }

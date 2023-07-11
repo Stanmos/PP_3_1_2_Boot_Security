@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UsersService;
 
-import java.util.List;
-
 @Controller
 public class UsersController {
 
@@ -25,10 +23,6 @@ public class UsersController {
         User user = usersService.getUserByEmail(auth.getName());
         model.addAttribute("currentuser", user);
         model.addAttribute("allRoles", usersService.getAllRoles());
-
-        model.addAttribute("user", new User());
-        List<User> userList = usersService.getUsers();
-        model.addAttribute("users", userList);
         return "admin";
     }
 

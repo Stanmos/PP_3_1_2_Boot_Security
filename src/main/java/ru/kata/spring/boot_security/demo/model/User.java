@@ -5,9 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +22,7 @@ public class User implements UserDetails {
 
     private String email;
 
+//    @JsonIgnore
     private String password;
 
     @ManyToMany
@@ -92,17 +91,6 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
-    }
-
-    public String[]  getRolesString() {
-        Set<Role> roles = getRoles();
-        String[] arr = new String[roles.size()];
-        int count = 0;
-        for (Role r: roles) {
-            arr[count] = r.toString();
-            count++;
-        }
-        return arr;
     }
 
     public void setRoles(Set<Role> roles) {
